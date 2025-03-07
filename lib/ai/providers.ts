@@ -3,6 +3,7 @@ import {
   extractReasoningMiddleware,
   wrapLanguageModel,
 } from 'ai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { openai } from '@ai-sdk/openai';
 import { fireworks } from '@ai-sdk/fireworks';
 import { isTestEnvironment } from '../constants';
@@ -12,6 +13,10 @@ import {
   reasoningModel,
   titleModel,
 } from './models.test';
+
+const openrouter = createOpenRouter({
+  apiKey: process.env.OPENROUTER_API_KEY || '',
+});
 
 export const myProvider = isTestEnvironment
   ? customProvider({
@@ -25,17 +30,17 @@ export const myProvider = isTestEnvironment
     })
   : customProvider({
       languageModels: {
-        'chat-model-small': openai('gpt-4o-mini'),
-        'chat-model-large': openai('gpt-4o'),
+        'chat-model-small': openrouter('deepseek/deepseek-r1-zero:free'),
+        'chat-model-large': openrouter('deepseek/deepseek-r1-zero:free'),
         'chat-model-reasoning': wrapLanguageModel({
-          model: fireworks('accounts/fireworks/models/deepseek-r1'),
+          model: openrouter('deepseek/deepseek-r1-zero:free'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': openai('gpt-4-turbo'),
-        'artifact-model': openai('gpt-4o-mini'),
+        'title-model': openrouter('deepseek/deepseek-r1-zero:free'),
+        'artifact-model': openrouter('deepseek/deepseek-r1-zero:free'),
       },
       imageModels: {
-        'small-model': openai.image('dall-e-2'),
-        'large-model': openai.image('dall-e-3'),
+        // 'small-model':openrouter('deepseek/deepseek-r1-zero:free'),
+        // 'large-model': openrouter('deepseek/deepseek-r1-zero:free'),
       },
     });
