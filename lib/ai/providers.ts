@@ -15,7 +15,7 @@ import {
 } from './models.test';
 
 const openrouter = createOpenRouter({
-  apiKey: process.env.OPENAI_API_KEY || '',
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export const myProvider = isTestEnvironment
@@ -30,14 +30,14 @@ export const myProvider = isTestEnvironment
     })
   : customProvider({
       languageModels: {
-        'chat-model-small': openrouter('deepseek/deepseek-r1-zero:free'),
-        'chat-model-large': openrouter('deepseek/deepseek-r1-zero:free'),
+        'chat-model-small': openrouter('google/gemini-2.0-pro-exp-02-05:free'),
+        'chat-model-large': openrouter('qwen/qwen-2-7b-instruct:free'),
         'chat-model-reasoning': wrapLanguageModel({
-          model: openrouter('deepseek/deepseek-r1-zero:free'),
+          model: openrouter('qwen/qwq-32b:free'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': openrouter('deepseek/deepseek-r1-zero:free'),
-        'artifact-model': openrouter('deepseek/deepseek-r1-zero:free'),
+        'title-model': openrouter('qwen/qwen-2-7b-instruct:free'),
+        'artifact-model': openrouter('qwen/qwen-2-7b-instruct:free'),
       },
       imageModels: {
         // 'small-model':openrouter('deepseek/deepseek-r1-zero:free'),
