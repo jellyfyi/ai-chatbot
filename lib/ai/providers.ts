@@ -15,7 +15,7 @@ import {
 } from './models.test';
 
 const openrouter = createOpenRouter({
-  apiKey: process.env.OPENROUTER_API_KEY || '',
+  apiKey: process.env.OPENAI_API_KEY || '',
 });
 
 export const myProvider = isTestEnvironment
